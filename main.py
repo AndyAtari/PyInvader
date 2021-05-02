@@ -12,9 +12,10 @@ pygame.display.set_icon(icon)
 playerImg = pygame.image.load('player1.png')
 playerX = 370
 playerY = 500
+playerX_move = 0
 
-def player():
-    screen.blit(playerImg, (playerX, playerY))
+def player(x, y):
+    screen.blit(playerImg, (x, y))
 
 
 # Loop for keeping window open until closing. Draws screen and updates screen. 
@@ -22,14 +23,24 @@ running = True
 while running:
 
     screen.fill((221, 160, 221))
-
+    
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False  
 
+    # if key pressed, check whether left or right
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                playerX_move = -.4
+            if event.key == pygame.K_d:
+                playerX_move = .4
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_a or event.key == pygame.K_d:
+                playerX_move = 0
     
-    
-    player()
+    playerX += playerX_move
+    player(playerX, playerY)
     pygame.display.update()
 
 
