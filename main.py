@@ -1,4 +1,5 @@
 import pygame 
+import random 
 
 pygame.init()
 
@@ -19,8 +20,8 @@ def player(x, y):
 
 # Invader
 invaderImg = pygame.image.load('extraterrestrial.png')
-INVADER_X = 370
-INVADER_Y = 50
+INVADER_X = random.randint(0, 800)
+INVADER_Y = random.randint(50, 200)
 INVADERX_MOVE = 0
 
 def invader(x, y):
