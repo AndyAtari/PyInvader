@@ -17,12 +17,21 @@ playerX_move = 0
 def player(x, y):
     screen.blit(playerImg, (x, y))
 
+# Invader
+invaderImg = pygame.image.load('extraterrestrial.png')
+INVADER_X = 370
+INVADER_Y = 50
+INVADERX_MOVE = 0
+
+def invader(x, y):
+    screen.blit(invaderImg, (x, y))
+
 
 # Loop for keeping window open until closing. Draws screen and updates screen. 
 running = True 
 while running:
 
-    screen.fill((221, 160, 221))
+    screen.fill((218, 60, 34))
     
     
     for event in pygame.event.get():
@@ -47,8 +56,7 @@ while running:
         playerX = 736
     
     player(playerX, playerY)
+    invader(INVADER_X, INVADER_Y)
     pygame.display.update()
 
 
-# <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-buddha" title="Pixel Buddha">Pixel Buddha</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-# <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> 
