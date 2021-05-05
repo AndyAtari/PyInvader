@@ -22,7 +22,8 @@ def player(x, y):
 invaderImg = pygame.image.load('extraterrestrial.png')
 INVADER_X = random.randint(0, 800)
 INVADER_Y = random.randint(50, 200)
-INVADERX_MOVE = 0
+INVADERX_MOVE = 0.1
+INVADERY_MOVE = 20
 
 def invader(x, y):
     screen.blit(invaderImg, (x, y))
@@ -49,12 +50,23 @@ while running:
             if event.key == pygame.K_a or event.key == pygame.K_d:
                 playerX_move = 0
     
+    # BOUNDARY CHECK PLAYER1
     playerX += playerX_move
 
     if playerX <= 0:
         playerX = 0
     elif playerX >= 736:
         playerX = 736
+
+    # BOUNDARY CHECK/MOVEMENT OF INVADER 
+    INVADER_X += INVADERX_MOVE
+
+    if INVADER_X <= 0:
+        INVADERX_MOVE = 0.1
+        INVADER_Y += INVADERY_MOVE
+    elif INVADER_X >= 736:
+        INVADERX_MOVE = -0.1
+        INVADER_Y += INVADERY_MOVE
     
     player(playerX, playerY)
     invader(INVADER_X, INVADER_Y)
