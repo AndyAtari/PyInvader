@@ -9,6 +9,9 @@ pygame.display.set_caption("PyInvader")
 icon = pygame.image.load("ufo.png")
 pygame.display.set_icon(icon)
 
+#Background 
+background = pygame.image.load("Sunset Lake.jpg")
+
 # Player 1
 playerImg = pygame.image.load('player1.png')
 playerX = 370
@@ -19,10 +22,10 @@ def player(x, y):
     screen.blit(playerImg, (x, y))
 
 # Invader
-invaderImg = pygame.image.load('extraterrestrial.png')
+invaderImg = pygame.image.load('ufo (1).png')
 INVADER_X = random.randint(0, 800)
 INVADER_Y = random.randint(50, 200)
-INVADERX_MOVE = 0.1
+INVADERX_MOVE = 0.15
 INVADERY_MOVE = 20
 
 def invader(x, y):
@@ -33,8 +36,9 @@ def invader(x, y):
 running = True 
 while running:
 
-    screen.fill((218, 60, 34))
-    
+    # screen.fill((218, 60, 34))
+    #background image 
+    screen.blit(background, (0, 0))
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -62,10 +66,10 @@ while running:
     INVADER_X += INVADERX_MOVE
 
     if INVADER_X <= 0:
-        INVADERX_MOVE = 0.1
+        INVADERX_MOVE = 0.15
         INVADER_Y += INVADERY_MOVE
     elif INVADER_X >= 736:
-        INVADERX_MOVE = -0.1
+        INVADERX_MOVE = -0.15
         INVADER_Y += INVADERY_MOVE
     
     player(playerX, playerY)
