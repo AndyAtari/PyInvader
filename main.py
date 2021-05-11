@@ -35,7 +35,7 @@ def invader(x, y):
 bulletImg = pygame.image.load('bullets.png')
 bulletX = 0
 bulletY = 500
-bulletY_change = .4
+bulletY_change = .3
 bullet_state = "ready"
 
 def fire_bullet(x,y): 
@@ -62,7 +62,9 @@ while running:
             if event.key == pygame.K_d:
                 playerX_move = .4
             if event.key == pygame.K_SPACE:
-                fire_bullet(playerX, bulletY)
+                if bullet_state == "ready":
+                    bulletX = playerX
+                    fire_bullet(bulletX, bulletY)
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a or event.key == pygame.K_d:
                 playerX_move = 0
@@ -86,8 +88,12 @@ while running:
         INVADER_Y += INVADERY_MOVE
 
     # Bullet Movement
+    if bulletY <= 0:
+        bulletY = 500
+        bullet_state = "ready"
+
     if bullet_state is "fire":
-        fire_bullet(playerX, bulletY)
+        fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
     
     player(playerX, playerY)
