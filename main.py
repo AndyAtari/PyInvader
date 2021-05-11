@@ -1,7 +1,10 @@
 import pygame 
 import random 
+import math
 
 pygame.init()
+
+score = 0
 
 # set display screen size and added caption and icon
 screen = pygame.display.set_mode((800, 600))
@@ -25,7 +28,7 @@ def player(x, y):
 invaderImg = pygame.image.load('ufo (1).png')
 INVADER_X = random.randint(0, 736)
 INVADER_Y = random.randint(50, 200)
-INVADERX_MOVE = 0.15
+INVADERX_MOVE = 0.1
 INVADERY_MOVE = 20
 
 def invader(x, y):
@@ -42,6 +45,14 @@ def fire_bullet(x,y):
     global bullet_state
     bullet_state = "fire"
     screen.blit(bulletImg, (x + 16,y + 10))
+
+def isCollision(INVADER_X, INVADER_Y, bulletX, bulletY):
+    distance = math.sqrt(math.pow(INVADER_X - bulletX,2) + math.pow(INVADER_Y - bulletY,2))
+    if distance < 27:
+        return True
+    else:
+        return False
+
 
 # Loop for keeping window open until closing. Draws screen and updates screen. 
 running = True 
@@ -81,10 +92,10 @@ while running:
     INVADER_X += INVADERX_MOVE
 
     if INVADER_X <= 0:
-        INVADERX_MOVE = 0.15
+        INVADERX_MOVE = 0.1
         INVADER_Y += INVADERY_MOVE
     elif INVADER_X >= 736:
-        INVADERX_MOVE = -0.15
+        INVADERX_MOVE = -0.1
         INVADER_Y += INVADERY_MOVE
 
     # Bullet Movement
@@ -95,6 +106,17 @@ while running:
     if bullet_state is "fire":
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
+
+    # Collision
+    collision = isCollision(INVADER_X, INVADER_Y, bulletX, bulletY)
+    if collision:
+        bulletY = 500
+        bullet_state = "ready"
+        score += 100
+        print(score)
+        INVADER_X = random.randint(0, 736)
+        INVADER_Y = random.randint(50, 200)
+        
     
     player(playerX, playerY)
     invader(INVADER_X, INVADER_Y)
