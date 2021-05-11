@@ -34,6 +34,11 @@ INVADERY_MOVE = 20
 def invader(x, y):
     screen.blit(invaderImg, (x, y))
 
+explosionImg = pygame.image.load('explosion.png')
+
+def explosion(x, y):
+    screen.blit(explosionImg, (x, y))
+
 # Bullet
 bulletImg = pygame.image.load('bullets.png')
 bulletX = 0
@@ -48,7 +53,7 @@ def fire_bullet(x,y):
 
 def isCollision(INVADER_X, INVADER_Y, bulletX, bulletY):
     distance = math.sqrt(math.pow(INVADER_X - bulletX,2) + math.pow(INVADER_Y - bulletY,2))
-    if distance < 27:
+    if distance < 32:
         return True
     else:
         return False
