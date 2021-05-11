@@ -23,7 +23,7 @@ def player(x, y):
 
 # Invader
 invaderImg = pygame.image.load('ufo (1).png')
-INVADER_X = random.randint(0, 800)
+INVADER_X = random.randint(0, 736)
 INVADER_Y = random.randint(50, 200)
 INVADERX_MOVE = 0.15
 INVADERY_MOVE = 20
@@ -31,6 +31,17 @@ INVADERY_MOVE = 20
 def invader(x, y):
     screen.blit(invaderImg, (x, y))
 
+# Bullet
+bulletImg = pygame.image.load('bullets.png')
+bulletX = 0
+bulletY = 500
+bulletY_change = .4
+bullet_state = "ready"
+
+def fire_bullet(x,y): 
+    global bullet_state
+    bullet_state = "fire"
+    screen.blit(bulletImg, (x + 16,y + 10))
 
 # Loop for keeping window open until closing. Draws screen and updates screen. 
 running = True 
@@ -50,6 +61,8 @@ while running:
                 playerX_move = -.4
             if event.key == pygame.K_d:
                 playerX_move = .4
+            if event.key == pygame.K_SPACE:
+                fire_bullet(playerX, bulletY)
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a or event.key == pygame.K_d:
                 playerX_move = 0
@@ -71,6 +84,11 @@ while running:
     elif INVADER_X >= 736:
         INVADERX_MOVE = -0.15
         INVADER_Y += INVADERY_MOVE
+
+    # Bullet Movement
+    if bullet_state is "fire":
+        fire_bullet(playerX, bulletY)
+        bulletY -= bulletY_change
     
     player(playerX, playerY)
     invader(INVADER_X, INVADER_Y)
