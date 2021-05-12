@@ -2,6 +2,7 @@ import pygame
 import random 
 import math
 
+
 pygame.init()
 
 score = 0
@@ -34,7 +35,7 @@ INVADERY_MOVE = 20
 def invader(x, y):
     screen.blit(invaderImg, (x, y))
 
-explosionImg = pygame.image.load('explosion.png')
+explosionImg = pygame.image.load('explosion2.png')
 
 def explosion(x, y):
     screen.blit(explosionImg, (x, y))
@@ -108,19 +109,25 @@ while running:
         bulletY = 500
         bullet_state = "ready"
 
-    if bullet_state is "fire":
+    if bullet_state == "fire":
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
 
     # Collision
     collision = isCollision(INVADER_X, INVADER_Y, bulletX, bulletY)
     if collision:
+        explosion(INVADER_X, INVADER_Y)
         bulletY = 500
         bullet_state = "ready"
         score += 100
         print(score)
         INVADER_X = random.randint(0, 736)
         INVADER_Y = random.randint(50, 200)
+
+    
+        
+       
+        
         
     
     player(playerX, playerY)
