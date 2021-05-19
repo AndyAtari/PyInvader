@@ -2,11 +2,7 @@ import pygame
 import random 
 import math
 
-
 pygame.init()
-
-# Initial Score 
-score = 0
 
 # set display screen size and added caption and icon
 screen = pygame.display.set_mode((800, 600))
@@ -72,6 +68,15 @@ def isCollision(invaderX, invaderY, bulletX, bulletY):
     else:
         return False
 
+# Score 
+score = 0
+font = pygame.font.Font('neo_scifi.ttf', 32)
+textX = 10
+textY = 10
+
+def show_score(x, y):
+    score_display = font.render("Score: " + str(score), True, (173, 216, 230))
+    screen.blit(score_display, (x, y))
 
 # Loop for keeping window open until closing. Draws screen and updates screen. 
 running = True 
@@ -124,7 +129,6 @@ while running:
             bulletY = 500
             bullet_state = "ready"
             score += 100
-            print(score)
             invaderX[i] = random.randint(0, 736)
             invaderY[i] = random.randint(50, 200)
 
@@ -141,6 +145,7 @@ while running:
         bulletY -= bulletY_change  
     
     player(playerX, playerY)
+    show_score(textX, textY)
     pygame.display.update()
 
 
