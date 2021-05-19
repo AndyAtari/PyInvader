@@ -1,6 +1,7 @@
 import pygame 
 import random 
 import math
+from pygame import mixer 
 
 pygame.init()
 
@@ -12,6 +13,10 @@ pygame.display.set_icon(icon)
 
 #Background 
 background = pygame.image.load("Sunset Lake.jpg")
+
+# Background Music
+mixer.music.load("537732__bone666138__sci-fi-music-cue.wav") 
+mixer.music.play(-1)
 
 # Player 1
 playerImg = pygame.image.load('player1.png')
@@ -53,7 +58,7 @@ def explosion(x, y):
 bulletImg = pygame.image.load('bullets.png')
 bulletX = 0
 bulletY = 500
-bulletY_change = .3
+bulletY_change = .5
 bullet_state = "ready"
 
 def fire_bullet(x,y): 
@@ -93,11 +98,13 @@ while running:
     # if key pressed, check whether left or right
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
-                playerX_move = -.4
+                playerX_move = -1
             if event.key == pygame.K_d:
-                playerX_move = .4
+                playerX_move = 1
             if event.key == pygame.K_SPACE:
                 if bullet_state == "ready":
+                    bullet_sound = mixer.Sound("238159__jtragaudio__fuzzsound-bullet.wav")
+                    bullet_sound.play() 
                     bulletX = playerX
                     fire_bullet(bulletX, bulletY)
         if event.type == pygame.KEYUP:
@@ -117,15 +124,17 @@ while running:
         invaderX[i] += invaderX_move[i]
 
         if invaderX[i] <= 0:
-            invaderX_move[i] = 0.2
+            invaderX_move[i] = 0.3
             invaderY[i] += invaderY_move[i]
         elif invaderX[i] >= 736:
-            invaderX_move[i] = -0.2
+            invaderX_move[i] = -0.3
             invaderY[i] += invaderY_move[i]
 
         collision = isCollision(invaderX[i], invaderY[i], bulletX, bulletY)
         if collision:
             explosion(invaderX[i], invaderY[i])
+            explosion_sound = mixer.Sound("334266__projectsu012__short-explosion-1.wav")
+            explosion_sound.play() 
             bulletY = 500
             bullet_state = "ready"
             score += 100
