@@ -1,6 +1,7 @@
 import pygame 
 import random 
 import math
+import time
 from pygame import mixer 
 
 pygame.init()
@@ -17,6 +18,7 @@ background = pygame.image.load("Sunset Lake.jpg")
 # Background Music
 mixer.music.load("537732__bone666138__sci-fi-music-cue.wav") 
 mixer.music.play(-1)
+mixer.music.set_volume(0.2)
 
 # Player 1
 playerImg = pygame.image.load('player1.png')
@@ -83,6 +85,12 @@ def show_score(x, y):
     score_display = font.render("Score: " + str(score), True, (173, 216, 230))
     screen.blit(score_display, (x, y))
 
+def game_over_text():
+    game_over_font = pygame.font.Font('neo_scifi.ttf', 64)
+    game_over_display = game_over_font.render("GAME OVER", True, (173, 216, 230))
+    screen.blit(game_over_display, (210, 300))
+    pygame.mixer.music.fadeout(5000)
+        
 # Loop for keeping window open until closing. Draws screen and updates screen. 
 running = True 
 while running:
@@ -105,6 +113,7 @@ while running:
                 if bullet_state == "ready":
                     bullet_sound = mixer.Sound("238159__jtragaudio__fuzzsound-bullet.wav")
                     bullet_sound.play() 
+                    bullet_sound.set_volume(.2)
                     bulletX = playerX
                     fire_bullet(bulletX, bulletY)
         if event.type == pygame.KEYUP:
@@ -121,6 +130,14 @@ while running:
 
     # BOUNDARY CHECK/MOVEMENT OF INVADER 
     for i in range(num_of_invaders):
+
+        # Game Over 
+        if invaderY[i] > 460:
+            for j in range(num_of_invaders):
+                invaderY[j] = 2000
+            game_over_text()
+            break 
+
         invaderX[i] += invaderX_move[i]
 
         if invaderX[i] <= 0:
@@ -135,6 +152,7 @@ while running:
             explosion(invaderX[i], invaderY[i])
             explosion_sound = mixer.Sound("334266__projectsu012__short-explosion-1.wav")
             explosion_sound.play() 
+            explosion_sound.set_volume(.1)
             bulletY = 500
             bullet_state = "ready"
             score += 100
